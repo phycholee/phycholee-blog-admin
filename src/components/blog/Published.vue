@@ -1,9 +1,14 @@
 <template>
-  <h2>已发布博客</h2>
+  <blog-list></blog-list>
 </template>
 
 <script>
+  import BlogList from './BlogList.vue'
+
   export default{
-    name: 'unpublished'
+    name: 'Published',
+    components:{
+      BlogList
+    }
   }
 </script>
