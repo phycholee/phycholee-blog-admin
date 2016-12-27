@@ -1,45 +1,19 @@
 <template>
   <div class="blog-list">
-    <el-row class="blog-item">
+    <el-row class="blog-item"  v-for="article in articles">
       <el-col :span="2" class="blog-status">
-        <span class="label label-success">已发布</span>
+        <span class="label" :class="labelClass">{{ statusText }}</span>
       </el-col>
       <el-col :span="10" class="blog-title">
         <a href="#">
-          <span>SpringBoot+Mybatis整合</span><br>
-          <small>SpringBoot+Mybatis</small>
+          <span>{{ article.title }}</span><br>
+          <small>{{ article.subTitle }}</small>
         </a>
       </el-col>
       <el-col :span="4" class="blog-time">
         <small>创建时间：</small>
         <br>
-        <small class="create-time">2016-09-07</small>
-      </el-col>
-      <el-col :span="4" class="blog-author">
-        <a href="#" title="作者">
-          <span>PhychoLee</span>
-        </a>
-      </el-col>
-      <el-col :span="4" class="blog-actions">
-        <el-button :plain="true" type="warning" size="small"><i class="fa fa-pencil"></i> 编辑</el-button>
-        <el-button :plain="true" type="danger" size="small"><i class="fa fa-trash"></i> 删除</el-button>
-      </el-col>
-    </el-row>
-
-    <el-row class="blog-item">
-      <el-col :span="2" class="blog-status">
-        <span class="label label-success">已发布</span>
-      </el-col>
-      <el-col :span="10" class="blog-title">
-        <a href="#">
-          <span>SpringBoot+Mybatis整合</span><br>
-          <small>SpringBoot+Mybatis</small>
-        </a>
-      </el-col>
-      <el-col :span="4" class="blog-time">
-        <small>创建时间：</small>
-        <br>
-        <small class="create-time">2016-09-07</small>
+        <small class="create-time">{{ article.createTime }}</small>
       </el-col>
       <el-col :span="4" class="blog-author">
         <a href="#" title="作者">
@@ -54,8 +28,43 @@
   </div>
 </template>
 <script>
+  import { request } from './../../request'
+
+  var params;
+
   export default{
-    name: 'BlogList'
+    name: 'BlogList',
+    data(){
+      return {
+        articles: [],
+        statusText: '',
+        labelClass: 'label-success'
+      }
+    },
+    mounted(){
+      var $status = this.$store.state.status
+
+      if (1 == $status){
+        this.statusText = '已发布'
+        this.labelClass = 'label-success'
+      }else if(2 == $status){
+        this.statusText = '未发布'
+        this.labelClass = 'label-primary'
+      }
+
+      params = {
+        offset: 0,
+        limit: 10,
+        status: $status
+      }
+      //获取数据
+      request.article.articles(params).then(res=>{
+          if(200 == res.code){
+             this.articles = res.rows
+          }
+      })
+
+    }
   }
 </script>
 <style scoped>
@@ -104,7 +113,7 @@
   }
 
   .blog-time{
-    /*font-size: 1.0em;*/
+    color: #676a6c;
     font-weight: bold;
   }
   .blog-time .create-time{

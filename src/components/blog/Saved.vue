@@ -6,9 +6,12 @@
   import BlogList from './BlogList.vue'
 
   export default{
-    name: 'Unpublished',
+    name: 'Saved',
     components:{
       BlogList
+    },
+    created(){
+      this.$store.dispatch('setStatus', 2)
     }
   }
 </script>

@@ -9,6 +9,9 @@
     name: 'Published',
     components:{
       BlogList
+    },
+    created(){
+      this.$store.dispatch('setStatus', 1)
     }
   }
 </script>

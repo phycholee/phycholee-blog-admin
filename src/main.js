@@ -16,8 +16,10 @@ import 'font-awesome/css/font-awesome.min.css'
 import Login from './components/Login'
 import Home from './components/Home'
 import Published from './components/blog/Published'
-import Unpublished from './components/blog/Unpublished'
+import Saved from './components/blog/Saved'
 import AddBlog from './components/blog/AddBlog'
+
+import store from './store'
 
 Vue.use(VueRouter)
 Vue.use(VueResource)
@@ -34,7 +36,7 @@ const routes = [{
   name:'博客',
   children:[
     {path:'/published', component:Published, name:'已发布', icon:'fa fa-eye'},
-    {path:'/unpublished', component:Unpublished, name:'未发布', icon:'fa fa-eye-slash'},
+    {path:'/saved', component:Saved, name:'未发布', icon:'fa fa-eye-slash'},
     {path:'/add-blog', component:AddBlog, name:'新博客', icon:'fa fa-pencil-square-o'}
   ]
 }];
@@ -55,6 +57,7 @@ router.afterEach(transition => {
 new Vue({
   el: '#app',
   router,
+  store,
   ...App,
 })
 

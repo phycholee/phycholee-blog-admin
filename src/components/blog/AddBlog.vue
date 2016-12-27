@@ -149,32 +149,29 @@
       var waitTime = 3000;
       var startTime = new Date();
 
-      var result
       request.article.save(params).then(res=>{
-        result=res
-      })
-
-      var endTime = new Date();
-      var useTime = endTime.getTime()-startTime.getTime();
-      if (useTime<waitTime){
-        waitTime = waitTime - useTime;
-      }else{
-        waitTime = useTime;
-      }
-
-      setTimeout(() => {
-        fLoding.close()
-        console.log('i am back'+result.code+'  '+result.message)
-        if (200 == result.code){
-          _this.$message({
-            message: result.message,
-            type: 'success'
-          });
-        }else if(400 == result.code){
-          _this.$message.error(result.message);
+        //计算通信花费时间
+        var endTime = new Date();
+        var useTime = endTime.getTime()-startTime.getTime();
+        if (useTime<waitTime){
+          waitTime = waitTime - useTime;
+        }else{
+          waitTime = useTime;
         }
 
-      }, waitTime);
+        setTimeout(() => {
+          fLoding.close()
+          if (200 == res.code){
+            _this.$message({
+              message: res.message,
+              type: 'success'
+            });
+          }else if(400 == res.code){
+            _this.$message.error(res.message);
+          }
+
+        }, waitTime);
+      })
     }
   }
 
