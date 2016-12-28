@@ -25,6 +25,18 @@
         <el-button :plain="true" type="danger" size="small"><i class="fa fa-trash"></i> 删除</el-button>
       </el-col>
     </el-row>
+
+    <div class="pagination-block">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[10, 20, 30]"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next"
+        :total="pageTotal">
+      </el-pagination>
+    </div>
   </div>
 </template>
 <script>
@@ -38,36 +50,63 @@
       return {
         articles: [],
         statusText: '',
-        labelClass: 'label-success'
+        blogStatus: 1,
+        labelClass: 'label-success',
+
+        currentPage: 1,
+        pageTotal: 1,
+        pageSize: 10
+      }
+    },
+    methods:{
+      handleSizeChange(val) {
+        console.log(`每页 ${val} 条`);
+        this.pageSize = val
+        getData(this)
+      },
+      handleCurrentChange(val) {
+        console.log(`当前页: ${val}`);
+        this.currentPage = val;
+        getData(this)
       }
     },
     mounted(){
-      var $status = this.$store.state.status
+       this.blogStatus = this.$store.state.status
 
-      if (1 == $status){
+      if (1 == this.blogStatus){
         this.statusText = '已发布'
         this.labelClass = 'label-success'
-      }else if(2 == $status){
+      }else if(2 == this.blogStatus){
         this.statusText = '未发布'
         this.labelClass = 'label-primary'
       }
 
-      params = {
-        offset: 0,
-        limit: 10,
-        status: $status
-      }
-      //获取数据
-      request.article.articles(params).then(res=>{
-          if(200 == res.code){
-             this.articles = res.rows
-          }
-      })
-
+      getData(this)
     }
+  }
+
+  var getData = (_this) => {
+
+    params = {
+      offset: (_this.currentPage-1) * _this.pageSize,
+      limit: _this.pageSize,
+      status: _this.blogStatus
+    }
+    //获取数据
+    request.article.articles(params).then(res=>{
+      if(200 == res.code){
+        _this.articles = res.rows
+        _this.pageTotal = res.total
+      }
+    })
   }
 </script>
 <style scoped>
+
+  .pagination-block{
+    margin: 50px 0;
+    float: right;
+  }
 
   .blog-item {
     vertical-align: middle;
