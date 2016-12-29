@@ -5,7 +5,7 @@
         <span class="label" :class="labelClass">{{ statusText }}</span>
       </el-col>
       <el-col :span="10" class="blog-title">
-        <a href="#">
+        <a @click="goItem(article.id)" style="cursor: pointer">
           <span>{{ article.title }}</span><br>
           <small>{{ article.subTitle }}</small>
         </a>
@@ -68,6 +68,14 @@
         console.log(`当前页: ${val}`);
         this.currentPage = val;
         getData(this)
+      },
+      goItem(id){
+        this.$router.push({
+          path:'/blog-item',
+          query: {
+            id: id
+          }
+        })
       }
     },
     mounted(){

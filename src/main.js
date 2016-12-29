@@ -18,6 +18,7 @@ import Home from './components/Home'
 import Published from './components/blog/Published'
 import Saved from './components/blog/Saved'
 import AddBlog from './components/blog/AddBlog'
+import BlogItem from './components/blog/BlogItem'
 
 import store from './store'
 
@@ -37,7 +38,12 @@ const routes = [{
   children:[
     {path:'/published', component:Published, name:'已发布', icon:'fa fa-eye'},
     {path:'/saved', component:Saved, name:'未发布', icon:'fa fa-eye-slash'},
-    {path:'/add-blog', component:AddBlog, name:'新博客', icon:'fa fa-pencil-square-o'}
+    {path:'/add-blog', component:AddBlog, name:'新博客', icon:'fa fa-pencil-square-o'},
+    {
+      path:'/blog-item',
+      component:BlogItem,
+      hidden: true
+    }
   ]
 }];
 
