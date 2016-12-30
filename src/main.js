@@ -42,6 +42,7 @@ const routes = [{
     {
       path:'/blog-item',
       component:BlogItem,
+      name:'博客内容',
       hidden: true
     }
   ]
