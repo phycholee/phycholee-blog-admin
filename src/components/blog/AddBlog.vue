@@ -54,9 +54,6 @@
 
 <script>
   import { request, getUrl } from './../../request'
-//  import { getUrl } from './../../request/url'
-//  import { Loading } from 'element-ui';
-
   var editor;
 
   export default{
@@ -166,6 +163,12 @@
               message: res.message,
               type: 'success'
             });
+
+            if(1 == params.status){
+              _this.$router.push('/published')
+            }else if(2 == params.status){
+              _this.$router.push('/saved')
+            }
           }else if(400 == res.code){
             _this.$message.error(res.message);
           }

@@ -1,6 +1,6 @@
 <template>
   <div class="blog-list">
-    <el-row class="blog-item"  v-for="article in articles">
+    <el-row class="blog-item"  v-for="(article, index) in articles">
       <el-col :span="2" class="blog-status">
         <span class="label" :class="labelClass">{{ statusText }}</span>
       </el-col>
@@ -22,7 +22,7 @@
       </el-col>
       <el-col :span="4" class="blog-actions">
         <el-button :plain="true" type="warning" size="small"><i class="fa fa-pencil"></i> 编辑</el-button>
-        <el-button :plain="true" type="danger" size="small"><i class="fa fa-trash"></i> 删除</el-button>
+        <el-button :plain="true" type="danger" size="small" @click="deleteBlog(article.id, index)"><i class="fa fa-trash"></i> 删除</el-button>
       </el-col>
     </el-row>
 
@@ -76,6 +76,33 @@
             id: id
           }
         })
+      },
+      deleteBlog(id, index){
+        this.$confirm('此操作将永久删除该博客, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          //往后台发送删除请求
+          request.article.delete(id).then(res=>{
+            if (200 == res.code){
+              this.articles.splice(index, 1)
+
+              this.$message({
+                message: res.message,
+                type: 'success'
+              });
+            }else {
+              this.$message.error(res.message);
+            }
+          })
+
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
       }
     },
     mounted(){
