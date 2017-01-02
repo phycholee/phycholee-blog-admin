@@ -24,6 +24,23 @@ article.save  = params => {
   })
 }
 
+article.update  = params => {
+  return new Promise((resolve, reject) => {
+    let url = getUrl('article')
+
+    Vue.http.put(url, params).then((response)=>{
+      console.log(response.body)
+      resolve(response.body)
+    }, (response)=>{
+      let data  = {
+        code: 400,
+        message: '未知错误'
+      }
+      resolve(data)
+    })
+  })
+}
+
 article.articles  = params => {
   return new Promise((resolve, reject) => {
     let url = getUrl('articles')

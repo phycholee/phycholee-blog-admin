@@ -3,7 +3,7 @@
     <el-button-group class="btns-operate">
 
       <el-button type="primary" size="large" title="返回" @click="back()"><i class="fa fa-chevron-left"></i></el-button>
-      <el-button type="primary" size="large" title="编辑"><i class="fa fa-pencil"></i></el-button>
+      <el-button type="primary" size="large" title="编辑" @click="editBlog()"><i class="fa fa-pencil"></i></el-button>
       <el-button type="primary" size="large" title="删除" @click="deleteBlog()"><i class="fa fa-trash"></i></el-button>
     </el-button-group>
 
@@ -54,6 +54,16 @@
         }else if(2 == status){
           this.$router.push('/saved')
         }
+      },
+      editBlog(){
+        var id = this.article.id
+
+        this.$router.push({
+          path:'/edit-blog',
+          query: {
+            id: id
+          }
+        })
       },
       deleteBlog(){
         var id = this.article.id

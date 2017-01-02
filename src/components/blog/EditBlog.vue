@@ -2,7 +2,6 @@
   <el-form ref="blogForm" :model="blogForm" :rules="validateForm"  label-width="80px">
     <div class="title-group box-block">
       <span class="block-label">标题信息（标题必填，副标题可选）</span>
-
       <el-form-item label="标题" prop="title">
         <el-input
           v-model="blogForm.title"
@@ -51,24 +50,23 @@
       <el-radio class="radio" v-model="statusRadio" label="2">保存</el-radio>
       <br><br>
 
-      <el-button size="large" :type="operateType" @click="save">
+      <el-button size="large" :type="operateType" @click="update">
         <i :class="operateIcon">&nbsp;</i>{{operateBtn}}
       </el-button>
     </div>
-
   </el-form>
 </template>
 
 <script>
   import { request, getUrl } from './../../request'
   var editor;
+  var markdownContent;
 
   export default{
-    name: 'AddBlog',
+    name: 'EditBlog',
     data(){
       return {
-        statusRadio: '1',
-        blogForm:{
+        blogForm: {
           title:'',
           subTitle:'',
           jumbotron:''
@@ -80,20 +78,28 @@
         }
       }
     },
-    computed:{
+    computed: {
+      statusRadio(){
+        var status = this.blogForm.status
+        if(1 == status){
+          return '1'
+        }else if(2 == status){
+          return '2'
+        }
+      },
       operateBtn(){
         var status = this.statusRadio
-        if(1 == status){
+        if (1 == status) {
           return '发布'
-        }else if(2 == status){
+        } else if (2 == status) {
           return '保存'
         }
       },
       operateIcon(){
         var status = this.statusRadio
-        if(1 == status){
+        if (1 == status) {
           return 'fa fa-location-arrow'
-        }else if(2 == status){
+        } else if (2 == status) {
           return 'fa fa-save'
         }
       },
@@ -108,14 +114,34 @@
     },
     mounted(){
       //MD编辑器初始化
-      initEditor()
+      editor= editormd("editormd", {
+        width   : "100%",
+        height  : 600,
+        path : "static/editor.md/lib/",
+        emoji : true,
+        saveHTMLToTextarea : true,
+        imageUpload : true,
+        imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+        imageUploadURL : getUrl('postImage'),
+        crossDomainUpload : true,
+        uploadCallbackURL : "http://localhost:8082/static/upload_callback.html",
+        onload : function() {
+          this.setMarkdown(markdownContent);
+        }
+        });
     },
-    methods:{
+    created(){
+      request.article.get(this.$route.query.id).then(res=>{
+        this.blogForm = res.article
+        markdownContent = res.article.markdownContent
+      })
+    },
+    methods: {
       handleRemove(file, fileList) {
         console.log(file, fileList);
 
-        request.image.delete({url: this.blogForm.jumbotron}).then(res=>{
-          if(200 == res.code){
+        request.image.delete({url: this.blogForm.jumbotron}).then(res=> {
+          if (200 == res.code) {
             this.blogForm.jumbotron = ''
             this.$message({
               message: '巨幕图删除成功',
@@ -139,9 +165,10 @@
       handleError(err, response, file){
         this.$message.error('巨幕图上传失败');
       },
-      save(){
+      update(){
         var status = parseInt(this.statusRadio)
         let params = {
+          id: this.blogForm.id,
           status: status,
           title: this.blogForm.title,
           subTitle: this.blogForm.subTitle,
@@ -149,19 +176,19 @@
           markdownContent: editor.getMarkdown(),
           htmlContent: editor.getHTML()
         }
-        saveArticle(this, params)
+        updateArticle(this, params)
       }
     }
   }
 
   //保存文章
-  var saveArticle = (_this, params) =>{
+  var updateArticle = (_this, params) =>{
     if (checkEmpty(_this)){
       var fLoding = _this.$loading({ fullscreen: true })
       var waitTime = 3000;
       var startTime = new Date();
 
-      request.article.save(params).then(res=>{
+      request.article.update(params).then(res=>{
         //计算通信花费时间
         var endTime = new Date();
         var useTime = endTime.getTime()-startTime.getTime();
@@ -179,11 +206,13 @@
               type: 'success'
             });
 
-            if(1 == params.status){
-              _this.$router.push('/published')
-            }else if(2 == params.status){
-              _this.$router.push('/saved')
-            }
+
+            _this.$router.push({
+              path:'/blog-item',
+              query: {
+                id: params.id
+              }
+            })
           }else if(400 == res.code){
             _this.$message.error(res.message);
           }
@@ -215,27 +244,6 @@
 
     return true
   }
-
-  var initEditor = () =>{
-    editor= editormd("editormd", {
-      width   : "100%",
-      height  : 600,
-      path : "static/editor.md/lib/",
-      emoji : true,
-      saveHTMLToTextarea : true,
-      imageUpload : true,
-      imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-      imageUploadURL : getUrl('postImage'),
-      crossDomainUpload : true,
-      uploadCallbackURL : "http://localhost:8082/static/upload_callback.html"
-    });
-  }
-
-  $(function () {
-    if(editor == null){
-      initEditor()
-    }
-  })
 </script>
 <style scoped>
 
@@ -261,8 +269,5 @@
   .btns-operate{
     float: right;
     margin:20px 0 100px 0;
-  }
-  .btns-operate button{
-    width: 121.461px;
   }
 </style>

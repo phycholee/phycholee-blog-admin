@@ -21,7 +21,7 @@
         </a>
       </el-col>
       <el-col :span="4" class="blog-actions">
-        <el-button :plain="true" type="warning" size="small"><i class="fa fa-pencil"></i> 编辑</el-button>
+        <el-button :plain="true" type="warning" size="small" @click="editBlog(article.id)"><i class="fa fa-pencil"></i> 编辑</el-button>
         <el-button :plain="true" type="danger" size="small" @click="deleteBlog(article.id, index)"><i class="fa fa-trash"></i> 删除</el-button>
       </el-col>
     </el-row>
@@ -72,6 +72,14 @@
       goItem(id){
         this.$router.push({
           path:'/blog-item',
+          query: {
+            id: id
+          }
+        })
+      },
+      editBlog(id){
+        this.$router.push({
+          path:'/edit-blog',
           query: {
             id: id
           }

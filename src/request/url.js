@@ -8,7 +8,8 @@ const urlMap = {
   articles: root+'admin/articles',
   article:  root+'admin/article',
   jumbotronImage: root+'admin/upload/jumbotronImage',
-  postImage:  root+'admin/upload/postImage'
+  postImage:  root+'admin/upload/postImage',
+  deleteImage: root+'admin/upload/deleteImage'
 }
 
 const getUrl = name => {
