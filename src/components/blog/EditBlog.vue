@@ -23,7 +23,13 @@
 
     <div class="box-block">
       <span class="block-label">上传文章巨幕图（可选）</span>
-      <el-upload
+      <div class="jumbotronImg" :style="jumbotronImg" v-if="hasJumbotron" @mouseover="jbShow($event)" @mouseout="jbHide($event)">
+        <div id="jb-delete" style="display: none">
+          <i class="fa fa-trash"></i>
+        </div>
+      </div>
+
+      <el-upload v-else
         action="http://localhost:8080/admin/upload/jumbotronImage"
         type="drag"
         :multiple="false"
@@ -36,6 +42,7 @@
         <div class="el-dragger__text">将文件拖到此处，或<em>点击上传</em></div>
         <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过10MB，分辨率建议为1920*1080</div>
       </el-upload>
+
     </div>
 
     <div class="box-block" style="padding: 0">
@@ -66,6 +73,7 @@
     name: 'EditBlog',
     data(){
       return {
+        jumbotronImg: '',
         blogForm: {
           title:'',
           subTitle:'',
@@ -79,6 +87,14 @@
       }
     },
     computed: {
+      hasJumbotron(){
+        var jumbotron = this.blogForm.jumbotron;
+        if (jumbotron != null && "" != jumbotron){
+          return true
+        } else {
+          return false
+        }
+      },
       statusRadio(){
         var status = this.blogForm.status
         if(1 == status){
@@ -134,9 +150,18 @@
       request.article.get(this.$route.query.id).then(res=>{
         this.blogForm = res.article
         markdownContent = res.article.markdownContent
+        this.jumbotronImg = {
+          backgroundImage: 'url('+res.article.jumbotron+')'
+        }
       })
     },
     methods: {
+      jbShow(e){
+        $('#jb-delete').css('display','inline-block')
+      },
+      jbHide(e){
+        $('#jb-delete').css('display','none')
+      },
       handleRemove(file, fileList) {
         console.log(file, fileList);
 
@@ -244,8 +269,43 @@
 
     return true
   }
+
+//  $(function () {
+//    $('.jumbotronImg').hover(function () {
+//      $('#jb-delete').css('display','inline-block')
+//    },function () {
+//      $('#jb-delete').css('display','none')
+//    })
+//  })
+
 </script>
 <style scoped>
+
+  .jumbotronImg{
+    background: no-repeat center center;
+    background-color: gray;
+    background-attachment: scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    margin-bottom: 0;
+    height: 430px;
+    text-align: center;
+  }
+  .jumbotronImg:hover{
+    filter:alpha(opacity=70);
+    -moz-opacity:0.7;
+    -khtml-opacity: 0.7;
+    opacity: 0.7;
+  }
+  #jb-delete{
+    color: #fff;
+    vertical-align: middle;
+    margin-top: 210px;
+    font-size: 30px;
+    cursor: pointer;
+  }
 
   .box-block{
     margin-top:10px;

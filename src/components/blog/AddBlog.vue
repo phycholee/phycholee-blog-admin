@@ -232,9 +232,7 @@
   }
 
   $(function () {
-    if(editor == null){
-      initEditor()
-    }
+    initEditor()
   })
 </script>
 <style scoped>
