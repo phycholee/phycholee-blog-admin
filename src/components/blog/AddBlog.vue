@@ -1,7 +1,7 @@
 <template>
   <el-form ref="blogForm" :model="blogForm" :rules="validateForm"  label-width="80px">
     <div class="title-group box-block">
-      <span class="block-label">标题信息（标题必填，副标题可选）</span>
+      <span class="block-label">标题信息（<span style="color:#ff4949;">*&nbsp;必填</span>）</span>
 
       <el-form-item label="标题" prop="title">
         <el-input
@@ -23,8 +23,14 @@
     </div>
 
     <div class="box-block">
-      <span class="block-label">上传文章巨幕图（可选）</span>
-      <el-upload
+      <span class="block-label">上传文章巨幕图（<span style="color:#ff4949;">可选</span>）</span>
+      <div class="jumbotronImg" :style="jumbotronImg" v-if="hasJumbotron" @mouseover="jbShow($event)" @mouseout="jbHide($event)">
+        <div id="jb-delete" style="display: none" @click="deleteJumbotron(blogForm.jumbotron)">
+          <i class="fa fa-trash"></i>
+        </div>
+      </div>
+
+      <el-upload v-else
         action="http://localhost:8080/admin/upload/jumbotronImage"
         type="drag"
         :multiple="false"
@@ -40,7 +46,7 @@
     </div>
 
     <div class="box-block" style="padding: 0">
-      <span class="block-label" style="margin-left: 4px">编辑正文（必填）</span>
+      <span class="block-label" style="margin-left: 4px">编辑正文（<span style="color:#ff4949;">必填</span>）</span>
       <div id="editormd">
         <textarea style="display:none;"></textarea>
       </div>
@@ -67,6 +73,7 @@
     name: 'AddBlog',
     data(){
       return {
+        jumbotronImg: '',
         statusRadio: '1',
         blogForm:{
           title:'',
@@ -81,6 +88,14 @@
       }
     },
     computed:{
+      hasJumbotron(){
+        var jumbotron = this.blogForm.jumbotron;
+        if (jumbotron != null && "" != jumbotron){
+          return true
+        } else {
+          return false
+        }
+      },
       operateBtn(){
         var status = this.statusRadio
         if(1 == status){
@@ -111,6 +126,29 @@
       initEditor()
     },
     methods:{
+      deleteJumbotron(url){
+
+        this.$message({
+          message: '巨幕图删除成功',
+          type: 'success'
+        });
+        //如果不是原始巨幕图url，就到服务器删除资源
+        request.image.delete({url: url}).then(res=> {
+          if (200 == res.code) {
+            this.blogForm.jumbotron = ''
+            this.$message({
+              message: '巨幕图删除成功',
+              type: 'success'
+            });
+          }
+        })
+      },
+      jbShow(e){
+        $('#jb-delete').css('display','inline-block')
+      },
+      jbHide(e){
+        $('#jb-delete').css('display','none')
+      },
       handleRemove(file, fileList) {
         console.log(file, fileList);
 
@@ -130,7 +168,12 @@
       },
       handleSuccess(response, file, fileList){
         console.log(response.code)
+
+        //巨幕图url设置
         this.blogForm.jumbotron = response.url
+        this.jumbotronImg = {
+          backgroundImage: 'url('+response.url+')'
+        }
         this.$message({
           message: '巨幕图上传成功',
           type: 'success'
@@ -227,7 +270,10 @@
       imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
       imageUploadURL : getUrl('postImage'),
       crossDomainUpload : true,
-      uploadCallbackURL : "http://localhost:8082/static/upload_callback.html"
+      uploadCallbackURL : "http://localhost:8082/static/upload_callback.html",
+      onload : function() {
+        this.setMarkdown('');
+      }
     });
   }
 
@@ -236,6 +282,31 @@
   })
 </script>
 <style scoped>
+  .jumbotronImg{
+    background: no-repeat center center;
+    background-color: gray;
+    background-attachment: scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+    margin-bottom: 0;
+    height: 430px;
+    text-align: center;
+  }
+  .jumbotronImg:hover{
+    filter:alpha(opacity=70);
+    -moz-opacity:0.7;
+    -khtml-opacity: 0.7;
+    opacity: 0.7;
+  }
+  #jb-delete{
+    color: #fff;
+    vertical-align: middle;
+    margin-top: 210px;
+    font-size: 30px;
+    cursor: pointer;
+  }
 
   .box-block{
     margin-top:10px;

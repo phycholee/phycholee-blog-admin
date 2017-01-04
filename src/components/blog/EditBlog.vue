@@ -1,7 +1,7 @@
 <template>
   <el-form ref="blogForm" :model="blogForm" :rules="validateForm"  label-width="80px">
     <div class="title-group box-block">
-      <span class="block-label">标题信息（标题必填，副标题可选）</span>
+      <span class="block-label">标题信息（<span style="color:#ff4949;">*&nbsp;必填</span>）</span>
       <el-form-item label="标题" prop="title">
         <el-input
           v-model="blogForm.title"
@@ -22,9 +22,9 @@
     </div>
 
     <div class="box-block">
-      <span class="block-label">上传文章巨幕图（可选）</span>
+      <span class="block-label">上传文章巨幕图（<span style="color:#ff4949;">可选</span>）</span>
       <div class="jumbotronImg" :style="jumbotronImg" v-if="hasJumbotron" @mouseover="jbShow($event)" @mouseout="jbHide($event)">
-        <div id="jb-delete" style="display: none">
+        <div id="jb-delete" style="display: none" @click="deleteJumbotron(blogForm.jumbotron)">
           <i class="fa fa-trash"></i>
         </div>
       </div>
@@ -46,7 +46,7 @@
     </div>
 
     <div class="box-block" style="padding: 0">
-      <span class="block-label" style="margin-left: 4px">编辑正文（必填）</span>
+      <span class="block-label" style="margin-left: 4px">编辑正文（<span style="color:#ff4949;">必填</span>）</span>
       <div id="editormd">
         <textarea style="display:none;"></textarea>
       </div>
@@ -68,6 +68,7 @@
   import { request, getUrl } from './../../request'
   var editor;
   var markdownContent;
+  var originalJumbotron;
 
   export default{
     name: 'EditBlog',
@@ -153,9 +154,37 @@
         this.jumbotronImg = {
           backgroundImage: 'url('+res.article.jumbotron+')'
         }
+
+        //保存原始巨幕图url
+        originalJumbotron = res.article.jumbotron
       })
     },
     methods: {
+      deleteJumbotron(url){
+
+        if (originalJumbotron == this.blogForm.jumbotron){
+          this.$message({
+            message: '未保存之前，此巨幕图不会删除',
+            type: 'info'
+          });
+        }else{
+          this.$message({
+            message: '巨幕图删除成功',
+            type: 'success'
+          });
+          //如果不是原始巨幕图url，就到服务器删除资源
+          request.image.delete({url: url}).then(res=> {
+            if (200 == res.code) {
+              this.$message({
+                message: '巨幕图删除成功',
+                type: 'success'
+              });
+            }
+          })
+        }
+
+        this.blogForm.jumbotron = ''
+      },
       jbShow(e){
         $('#jb-delete').css('display','inline-block')
       },
@@ -180,8 +209,10 @@
         console.log(file);
       },
       handleSuccess(response, file, fileList){
-        console.log(response.code)
         this.blogForm.jumbotron = response.url
+        this.jumbotronImg = {
+          backgroundImage: 'url('+response.url+')'
+        }
         this.$message({
           message: '巨幕图上传成功',
           type: 'success'
@@ -269,14 +300,6 @@
 
     return true
   }
-
-//  $(function () {
-//    $('.jumbotronImg').hover(function () {
-//      $('#jb-delete').css('display','inline-block')
-//    },function () {
-//      $('#jb-delete').css('display','none')
-//    })
-//  })
 
 </script>
 <style scoped>
