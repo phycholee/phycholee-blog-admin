@@ -21,6 +21,8 @@ import AddBlog from './components/blog/AddBlog'
 import BlogItem from './components/blog/BlogItem'
 import EditBlog from './components/blog/EditBlog'
 
+import AddTag from './components/tag/AddTag'
+
 import store from './store'
 
 Vue.use(VueRouter)
@@ -42,6 +44,13 @@ const routes = [{
     {path:'/add-blog', component:AddBlog, name:'新博客', icon:'fa fa-pencil-square-o'},
     {path:'/blog-item', component:BlogItem, name:'博客内容', hidden: true},
     {path:'/edit-blog', component:EditBlog, name:'修改博客', hidden: true}
+  ]
+},{
+  path:'/',
+  component: Home,
+  name:'标签',
+  children:[
+    {path:'/add-tag', component:AddTag, name:'新标签', icon:'fa fa-tag'},
   ]
 }];
 

@@ -3,11 +3,13 @@
  */
 import article from './article'
 import image from './image'
+import tag from './tag'
 import { getUrl } from './url'
 
 let request = {
   article: article,
-  image: image
+  image: image,
+  tag: tag
 }
 
 export { request, getUrl }

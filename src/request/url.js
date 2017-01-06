@@ -9,7 +9,8 @@ const urlMap = {
   article:  root+'admin/article',
   jumbotronImage: root+'admin/upload/jumbotronImage',
   postImage:  root+'admin/upload/postImage',
-  deleteImage: root+'admin/upload/deleteImage'
+  deleteImage: root+'admin/upload/deleteImage',
+  tag: root+'admin/tag'
 }
 
 const getUrl = name => {

@@ -82,7 +82,11 @@
         },
         validateForm:{
           title:[
-            {required:true, message:'标题不能为空！', trigger: 'blur'}
+            {required:true, message:'标题不能为空！', trigger: 'blur'},
+            { min: 1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur' }
+          ],
+          subTitle:[
+            { min: 1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur' }
           ]
         }
       }
@@ -250,7 +254,7 @@
     }else{
       _this.$refs.blogForm.validate((valid)=>{
         if(!valid){
-          _this.$message.error('标题信息不能为空');
+          _this.$message.error('标题不能为空');
           return false
         }
       })
