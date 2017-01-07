@@ -7,6 +7,23 @@ import { getUrl } from './url'
 
 let tag = {}
 
+tag.tags  = () => {
+  return new Promise((resolve, reject) => {
+    let url = getUrl('tags')
+
+    Vue.http.get(url).then((response)=>{
+      console.log(response.body)
+      resolve(response.body)
+    }, (response)=>{
+      let data  = {
+        code: 400,
+        message: '未知错误'
+      }
+      resolve(data)
+    })
+  })
+}
+
 tag.save  = params => {
   return new Promise((resolve, reject) => {
     let url = getUrl('tag')

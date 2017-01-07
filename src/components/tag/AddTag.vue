@@ -160,6 +160,8 @@
                 type: 'success'
               });
 
+              this.$router.push('/tags')
+
             }else if(400 == res.code){
               this.$message.error(res.message);
             }

@@ -10,7 +10,8 @@ const urlMap = {
   jumbotronImage: root+'admin/upload/jumbotronImage',
   postImage:  root+'admin/upload/postImage',
   deleteImage: root+'admin/upload/deleteImage',
-  tag: root+'admin/tag'
+  tags: root+'admin/tags',
+  tag: root+'admin/tag',
 }
 
 const getUrl = name => {

@@ -22,6 +22,7 @@ import BlogItem from './components/blog/BlogItem'
 import EditBlog from './components/blog/EditBlog'
 
 import AddTag from './components/tag/AddTag'
+import Tags from './components/tag/Tags'
 
 import store from './store'
 
@@ -50,7 +51,8 @@ const routes = [{
   component: Home,
   name:'标签',
   children:[
-    {path:'/add-tag', component:AddTag, name:'新标签', icon:'fa fa-tag'},
+    {path:'/tags', component:Tags, name:'标签管理', icon:'fa fa-tags'},
+    {path:'/add-tag', component:AddTag, name:'新标签', icon:'fa fa-pencil-square-o'},
   ]
 }];
 
