@@ -95,7 +95,7 @@
           message: '巨幕图删除成功',
           type: 'success'
         });
-        //如果不是原始巨幕图url，就到服务器删除资源
+        //删除资源
         request.image.delete({url: url}).then(res=> {
           if (200 == res.code) {
             this.tagForm.jumbotron = ''

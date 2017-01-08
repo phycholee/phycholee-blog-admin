@@ -2,9 +2,9 @@
   <div>
     <el-button-group class="btns-operate">
 
-      <el-button type="primary" size="large" title="返回" @click="back()"><i class="fa fa-chevron-left"></i></el-button>
-      <el-button type="primary" size="large" title="编辑" @click="editBlog()"><i class="fa fa-pencil"></i></el-button>
-      <el-button type="primary" size="large" title="删除" @click="deleteBlog()"><i class="fa fa-trash"></i></el-button>
+      <el-button type="default" size="large" title="返回" @click="back()"><i class="fa fa-chevron-left"></i></el-button>
+      <el-button type="default" size="large" title="编辑" @click="editBlog()"><i class="fa fa-pencil"></i></el-button>
+      <el-button type="default" size="large" title="删除" @click="deleteBlog()"><i class="fa fa-trash"></i></el-button>
     </el-button-group>
 
     <div class="intro-header" :style="bgImg">
@@ -125,9 +125,9 @@
     opacity: 0.5;
   }
   .btns-operate:hover{
-    filter:alpha(opacity=80);
-    -moz-opacity:0.8;
-    -khtml-opacity: 0.8;
-    opacity: 0.8;
+    filter:alpha(opacity=100);
+    -moz-opacity:1.0;
+    -khtml-opacity: 1.0;
+    opacity: 1.0;
   }
 </style>

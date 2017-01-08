@@ -1,0 +1,48 @@
+.jumbotronImg{
+  background: no-repeat center center;
+  background-color: gray;
+  background-attachment: scroll;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+  margin-bottom: 0;
+  height: 430px;
+  text-align: center;
+}
+.jumbotronImg:hover{
+  filter:alpha(opacity=70);
+  -moz-opacity:0.7;
+  -khtml-opacity: 0.7;
+  opacity: 0.7;
+}
+#jb-delete{
+  color: #fff;
+  vertical-align: middle;
+  margin-top: 210px;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.box-block{
+  margin-top:10px;
+  border: 1px solid #eaeefb;
+  border-radius: 4px;
+  transition: .2s;
+  padding: 0 24px 24px 24px;
+
+}
+.box-block:hover {
+  border: 1px solid #d3dce6;
+  box-shadow:0 2px 4px 0 rgba(0,0,0,.12),0 0 6px 0 rgba(0,0,0,.04)
+}
+.block-label{
+  display: inline-block;
+  color: #565059;
+  margin: 4px 0 14px -20px;
+  font-size: 0.8em;
+}
+.btns-operate{
+  float: right;
+  margin:20px 0 100px 0;
+}
