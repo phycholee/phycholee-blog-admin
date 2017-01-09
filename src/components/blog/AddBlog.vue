@@ -1,7 +1,7 @@
 <template>
   <el-form ref="blogForm" :model="blogForm" :rules="validateForm"  label-width="80px">
     <div class="title-group box-block">
-      <span class="block-label">标题信息（<span style="color:#ff4949;">*&nbsp;必填</span>）</span>
+      <span class="block-label">基础信息（<span style="color:#ff4949;">*&nbsp;必填</span>）</span>
 
       <el-form-item label="标题" prop="title">
         <el-input
@@ -19,6 +19,16 @@
           placeholder="请输入副标题">
         </el-input>
       </el-form-item>
+      <el-form-item label="标签">
+        <el-select v-model="blogForm.tagIds" multiple placeholder="请选择">
+          <el-option
+            v-for="item in tags"
+            :label="item.name"
+            :value="item.id">
+          </el-option>
+        </el-select>
+      </el-form-item>
+
       <input type="hidden" v-model="blogForm.jumbotron">
     </div>
 
@@ -75,9 +85,11 @@
       return {
         jumbotronImg: '',
         statusRadio: '1',
+        tags:[],
         blogForm:{
           title:'',
           subTitle:'',
+          tagIds:[],
           jumbotron:''
         },
         validateForm:{
@@ -126,6 +138,15 @@
       }
     },
     mounted(){
+      //获取标签列表
+      request.tag.tags().then(res => {
+        if(200 == res.code){
+          this.tags = res.rows
+        } else{
+          this.$message.error('获取标签数据失败');
+        }
+      })
+
       //MD编辑器初始化
       initEditor()
     },
@@ -194,7 +215,8 @@
           subTitle: this.blogForm.subTitle,
           jumbotron: this.blogForm.jumbotron,
           markdownContent: editor.getMarkdown(),
-          htmlContent: editor.getHTML()
+          htmlContent: editor.getHTML(),
+          tagIds: this.blogForm.tagIds
         }
         saveArticle(this, params)
       }

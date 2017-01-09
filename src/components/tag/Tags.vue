@@ -1,12 +1,11 @@
 <template>
   <div>
     <div class="tags box-block2">
-      <div style="display: inline-block" v-for="tag in tags">
+      <div style="display: inline-block" v-for="(tag, index) in tags">
         <a class="tag" :class="tag.colorClass" @click="showTag(tag)">{{ tag.name }}</a>
         <input type="hidden" v-model="tag.id">
       </div>
     </div>
-
 
     <el-button-group class="btns-operate2">
       <el-button type="default" size="large" title="编辑" @click="editTag()" v-if="notEdit"><i class="fa fa-pencil"></i></el-button>
@@ -181,7 +180,28 @@
           type: 'warning'
         }).then(() => {
           //往后台发送删除请求
+          request.tag.delete(this.tagForm.id).then(res => {
+            if(200 == res.code){
+              this.$message({
+                message: res.message,
+                type: 'success'
+              });
 
+              //更新删除后的数据
+              for(var i=0; i<this.tags.length; i++){
+                if (this.tags[i].id == this.tagForm.id){
+                  this.tags.splice(i, 1)
+                }
+              }
+
+              this.tagForm = this.tags[0]
+              this.bgImg = {
+                backgroundImage: 'url('+this.tagForm.jumbotron+')'
+              }
+            }else {
+              this.$message.error(res.message);
+            }
+          })
 
         }).catch(() => {
           this.$message({

@@ -114,7 +114,7 @@
   .btns-operate{
     float: left;
     position: fixed;
-    top: 117px;
+    top: 97px;
     left: 250px;
     z-index: 2;
 

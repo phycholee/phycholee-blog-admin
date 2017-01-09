@@ -18,6 +18,15 @@
           placeholder="请输入副标题">
         </el-input>
       </el-form-item>
+      <el-form-item label="标签">
+        <el-select v-model="blogForm.tagIds" multiple placeholder="请选择">
+          <el-option
+            v-for="item in tags"
+            :label="item.name"
+            :value="item.id">
+          </el-option>
+        </el-select>
+      </el-form-item>
       <input type="hidden" v-model="blogForm.jumbotron">
     </div>
 
@@ -75,6 +84,7 @@
     data(){
       return {
         jumbotronImg: '',
+        tags:[],
         blogForm: {
           title:'',
           subTitle:'',
@@ -162,6 +172,15 @@
         //保存原始巨幕图url
         originalJumbotron = res.article.jumbotron
       })
+
+      //获取标签列表
+      request.tag.tags().then(res => {
+        if(200 == res.code){
+          this.tags = res.rows
+        } else{
+          this.$message.error('获取标签数据失败');
+        }
+      })
     },
     methods: {
       deleteJumbotron(url){
@@ -234,7 +253,8 @@
           subTitle: this.blogForm.subTitle,
           jumbotron: this.blogForm.jumbotron,
           markdownContent: editor.getMarkdown(),
-          htmlContent: editor.getHTML()
+          htmlContent: editor.getHTML(),
+          tagIds: this.blogForm.tagIds
         }
         updateArticle(this, params)
       }
