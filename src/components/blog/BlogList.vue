@@ -1,5 +1,26 @@
 <template>
   <div class="blog-list">
+
+    <div class="search-block">
+      <el-row>
+        <el-col :span="4" >
+          <el-select v-model="tagIds" multiple placeholder="请选择标签">
+            <el-option
+              v-for="item in tags"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="4" :offset="1">
+          <el-input v-model="input" placeholder="请输入标题"></el-input>
+        </el-col>
+        <el-col :span="2" :offset="1">
+          <el-button type="primary" icon="search">搜索</el-button>
+        </el-col>
+      </el-row>
+    </div>
+
     <el-row class="blog-item"  v-for="(article, index) in articles">
       <el-col :span="2" class="blog-status">
         <span class="label" :class="labelClass">{{ statusText }}</span>
@@ -48,6 +69,8 @@
     name: 'BlogList',
     data(){
       return {
+        tags:[],
+        tagIds:[],
         articles: [],
         statusText: '',
         blogStatus: 1,
@@ -124,6 +147,15 @@
         this.labelClass = 'label-primary'
       }
 
+      //获取标签列表
+      request.tag.tags().then(res => {
+        if(200 == res.code){
+          this.tags = res.rows
+        } else{
+          this.$message.error('获取标签数据失败');
+        }
+      })
+
       getData(this)
     }
   }
@@ -147,6 +179,15 @@
   }
 </script>
 <style scoped>
+
+  .search-block{
+    border: 1px solid #eaeefb;
+    background-color: #f9fafc;
+    border-radius: 4px;
+    transition: .2s;
+    padding: 24px 24px 24px 24px;
+
+  }
 
   .pagination-block{
     margin: 50px 0;

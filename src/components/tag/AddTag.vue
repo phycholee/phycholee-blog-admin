@@ -177,14 +177,14 @@
     _this.$refs.tagForm.validate((valid)=>{
       if(!valid){
         _this.$message.error('标题不能为空');
-        return false
+        return false;
       }else if('' == _this.tagForm.jumbotron){
         _this.$message.error('巨幕图不能为空');
-        return false
+        return false;
+      }else {
+        return true;
       }
     })
-
-    return true
   }
 </script>
 <style scoped>

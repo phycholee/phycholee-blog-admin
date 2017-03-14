@@ -8,8 +8,6 @@ import actions from './actions'
 
 Vue.use(Vuex);
 
-//先模拟数据
-// 个人数据
 const state = {
   status: 1
 };
