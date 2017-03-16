@@ -15,6 +15,10 @@
             <h3 class="subtitle">
               {{ article.subTitle }}
             </h3>
+          <div style="display: inline-block" v-for="(tag, index) in tags">
+            <a class="tag" :class="tag.colorClass">{{ tag.name }}</a>
+            <!--<input type="hidden" v-model="tag.id">-->
+          </div>
             <div class="post-meta">
               <span class="author"><i class="fa fa-user-o" aria-hidden="true"></i>&nbsp;PhychoLee</span>&nbsp;&nbsp;&nbsp;
               <span class="time"><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;{{ article.createTime }}</span>
@@ -41,6 +45,7 @@
     data(){
       return {
         article: '',
+        tags: [],
         bgImg: {
           backgroundImage: 'url('+require('./../../assets/img/post.jpg')+')'
         }
@@ -98,6 +103,7 @@
     mounted(){
       request.article.get(this.$route.query.id).then(res=>{
         this.article = res.article
+        this.tags = setColorClass(res.article.tags)
         var jumbotron = res.article.jumbotron;
         if('' != jumbotron && null != jumbotron){
           this.bgImg = {
@@ -107,9 +113,52 @@
       })
     }
   }
+
+  var setColorClass = (tags) => {
+
+    const tagPrimary = { 'tag-primary' : true }
+    const tagSuccess = { 'tag-success' : true }
+    const tagWarning = { 'tag-warning' : true }
+    const tagDanger = { 'tag-danger' : true }
+    const tagInfo = { 'tag-info' : true }
+
+    for(var i=0; i<tags.length; i++){
+      var randomNum = Math.floor(Math.random()*5)
+
+      //根据随机数给不同节点不同的颜色class
+      if(1 == randomNum){
+        tags[i].colorClass = {
+          'tag-primary' : true
+        }
+      }else if(2 == randomNum){
+        tags[i].colorClass = {
+          'tag-success' : true
+        }
+      }else if(3 == randomNum){
+        tags[i].colorClass = {
+          'tag-warning' : true
+        }
+      } else if(4 == randomNum){
+        tags[i].colorClass = {
+          'tag-danger' : true
+        }
+      }else if(5 == randomNum){
+        tags[i].colorClass = {
+          'tag-info' : true
+        }
+      }else {
+        tags[i].colorClass = {
+          'tag-primary' : false
+        }
+      }
+    }
+
+    return tags
+  }
 </script>
 <style scoped>
   @import "./../../assets/css/post.css";
+  @import "./../../assets/css/tag.css";
 
   .btns-operate{
     float: left;
@@ -130,4 +179,5 @@
     -khtml-opacity: 1.0;
     opacity: 1.0;
   }
+
 </style>

@@ -1,0 +1,72 @@
+/*
+标签样式
+*/
+.tag{
+  display: inline-block;
+  border-radius: 999em;
+  padding: 0 10px;
+  line-height: 24px;
+  font-size: 12px;
+  text-decoration: none;
+  margin: 0 6px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid #c0ccda;
+  color: #1f2d3d;
+}
+.tag:focus, .tag:hover{
+  color: #20a0ff;
+  border-color: #20a0ff;
+  text-decoration: none;
+}
+.tag-primary{
+  color: #fff;
+  background-color: #20a0ff;
+  border-color: #20a0ff;
+}
+.tag-primary:focus, .tag-primary:hover{
+  background: #4db3ff;
+  border-color: #4db3ff;
+  color: #fff;
+}
+.tag-success{
+  color: #fff;
+  background-color: #13ce66;
+  border-color: #13ce66;
+}
+.tag-success:focus, .tag-success:hover{
+  background: #42d885;
+  border-color: #42d885;
+  color: #fff;
+}
+.tag-warning{
+  color: #fff;
+  background-color: #f7ba2a;
+  border-color: #f7ba2a;
+}
+.tag-warning:focus, .tag-warning:hover{
+  background: #f9c855;
+  border-color: #f9c855;
+  color: #fff;
+}
+.tag-danger{
+  color: #fff;
+  background-color: #ff4949;
+  border-color: #ff4949;
+}
+.tag-danger:focus, .tag-danger:hover{
+  background: #ff6d6d;
+  border-color: #ff6d6d;
+  color: #fff;
+}
+.tag-info{
+  color: #fff;
+  background-color: #50bfff;
+  border-color: #50bfff;
+}
+.tag-info:hover{
+  background: #73ccff;
+  border-color: #73ccff;
+  color: #fff;
+}

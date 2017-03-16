@@ -4,7 +4,7 @@
     <div class="search-block">
       <el-row>
         <el-col :span="4" >
-          <el-select v-model="tagIds" multiple placeholder="请选择标签">
+          <el-select v-model="tagId" clearable placeholder="请选择标签">
             <el-option
               v-for="item in tags"
               :label="item.name"
@@ -13,10 +13,10 @@
           </el-select>
         </el-col>
         <el-col :span="4" :offset="1">
-          <el-input v-model="input" placeholder="请输入标题"></el-input>
+          <el-input v-model="title" placeholder="请输入标题"></el-input>
         </el-col>
         <el-col :span="2" :offset="1">
-          <el-button type="primary" icon="search">搜索</el-button>
+          <el-button type="primary" icon="search" @click="search()">搜索</el-button>
         </el-col>
       </el-row>
     </div>
@@ -78,7 +78,9 @@
 
         currentPage: 1,
         pageTotal: 1,
-        pageSize: 10
+        pageSize: 10,
+        tagId: '',
+        title: ''
       }
     },
     methods:{
@@ -134,6 +136,9 @@
             message: '已取消删除'
           });
         });
+      },
+      search(){
+        getData(this)
       }
     },
     mounted(){
@@ -165,7 +170,9 @@
     params = {
       offset: (_this.currentPage-1) * _this.pageSize,
       limit: _this.pageSize,
-      status: _this.blogStatus
+      status: _this.blogStatus,
+      tagId: _this.tagId,
+      title: _this.title
     }
     //获取数据
     request.article.articles(params).then(res=>{
