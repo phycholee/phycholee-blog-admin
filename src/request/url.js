@@ -12,6 +12,7 @@ const urlMap = {
   deleteImage: root+'admin/upload/deleteImage',
   tags: root+'admin/tags',
   tag: root+'admin/tag',
+  auth: root+'authorization/'
 }
 
 const getUrl = name => {

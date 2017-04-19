@@ -16,7 +16,10 @@
 </template>
 
 <script>
-export default {
+  import { request, getUrl } from './../request'
+
+
+  export default {
   name: 'login',
   data() {
     return {
@@ -39,7 +42,17 @@ export default {
     login() {
       this.$refs.loginForm.validate((valid)=>{
         if(valid){
-          this.$router.replace('/');
+
+          request.auth.login(this.loginForm).then(res => {
+            if(200 == res.code){
+              this.$store.dispatch('login', res.data)
+
+              this.$router.replace('/published');
+            } else{
+              this.$message.error('登录失败！');
+            }
+          })
+
         }else{
           return false
         }

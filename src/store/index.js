@@ -9,8 +9,10 @@ import actions from './actions'
 Vue.use(Vuex);
 
 const state = {
-  status: 1
-};
+  status: 1,
+  token: ''
+}
+
 
 export default new Vuex.Store({
   state,

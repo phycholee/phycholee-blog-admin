@@ -180,7 +180,7 @@
         _this.articles = res.rows
         _this.pageTotal = res.total
       } else{
-        this.$message.error('获取数据失败');
+        _this.$message.error('获取数据失败');
       }
     })
   }

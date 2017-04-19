@@ -51,6 +51,8 @@
 </template>
 
 <script>
+  import { request, getUrl } from './../request'
+
   export default{
     name: 'Home',
     data(){
@@ -74,7 +76,16 @@
       },
       logout(){
         this.$confirm('确认退出吗?','提示').then(()=>{
-          this.$router.replace('/login')
+          request.auth.logout(this.$store.state.token).then(res => {
+            if(200 == res.code){
+              this.$store.dispatch('logout')
+
+              this.$router.replace('/login')
+            } else{
+              this.$message.error('注销失败！');
+            }
+          })
+
         }).catch(()=>{
 
         })

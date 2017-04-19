@@ -62,7 +62,7 @@ tag.delete  = id => {
   return new Promise((resolve, reject) => {
     let url = getUrl('tag')
 
-    Vue.http.get(url+ "/" + id).then((response)=>{
+    Vue.http.delete(url+ "/" + id).then((response)=>{
       console.log(response.body)
       resolve(response.body)
     }, (response)=>{
