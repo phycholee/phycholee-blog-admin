@@ -32,8 +32,8 @@ Vue.use(VueResource)
 Vue.use(ElementUI)
 Vue.use(VueRouter)
 
-Vue.http.options.emulateJSON = true
-Vue.http.options.xhr = { withCredentials: true }
+// Vue.http.options.emulateJSON = true
+// Vue.http.options.xhr = { withCredentials: true }
 
 //每个请求头添加token信息
 Vue.http.interceptors.push((request, next) => {

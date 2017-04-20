@@ -7,7 +7,7 @@
     <el-form-item prop="password">
       <el-input type="password" v-model="loginForm.password" placeholder="请输入密码"></el-input>
     </el-form-item>
-    <el-checkbox v-model="loginForm.checked" checked style="margin:0px 0px 35px 0px;">记住密码</el-checkbox>
+    <!--<el-checkbox v-model="loginForm.checked" checked style="margin:0px 0px 35px 0px;">记住密码</el-checkbox>-->
     <el-form-item>
       <el-button type="primary" style="width: 100%" @click="login">登录</el-button>
     </el-form-item>

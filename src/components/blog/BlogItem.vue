@@ -20,7 +20,7 @@
             <!--<input type="hidden" v-model="tag.id">-->
           </div>
             <div class="post-meta">
-              <span class="author"><i class="fa fa-user-o" aria-hidden="true"></i>&nbsp;PhychoLee</span>&nbsp;&nbsp;&nbsp;
+              <span class="author"><i class="fa fa-user-o" aria-hidden="true"></i>&nbsp;{{ article.authorName }}</span>&nbsp;&nbsp;&nbsp;
               <span class="time"><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;{{ article.createTime }}</span>
             </div>
 
@@ -102,12 +102,12 @@
     },
     mounted(){
       request.article.get(this.$route.query.id).then(res=>{
-        this.article = res.article
-        this.tags = setColorClass(res.article.tags)
-        var jumbotron = res.article.jumbotron;
+        this.article = res.data
+        this.tags = setColorClass(res.data.tags)
+        var jumbotron = res.data.jumbotron;
         if('' != jumbotron && null != jumbotron){
           this.bgImg = {
-            backgroundImage: 'url('+res.article.jumbotron+')'
+            backgroundImage: 'url('+res.data.jumbotron+')'
           }
         }
       })

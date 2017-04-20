@@ -38,7 +38,7 @@
       </el-col>
       <el-col :span="4" class="blog-author">
         <a href="#" title="作者">
-          <span>PhychoLee</span>
+          <span>{{ article.authorName }}</span>
         </a>
       </el-col>
       <el-col :span="4" class="blog-actions">
@@ -168,7 +168,7 @@
   var getData = (_this) => {
 
     params = {
-      offset: (_this.currentPage-1) * _this.pageSize,
+      page: _this.currentPage,
       limit: _this.pageSize,
       status: _this.blogStatus,
       tagId: _this.tagId,
@@ -177,8 +177,8 @@
     //获取数据
     request.article.articles(params).then(res=>{
       if(200 == res.code){
-        _this.articles = res.rows
-        _this.pageTotal = res.total
+        _this.articles = res.data.data
+        _this.pageTotal = res.data.total
       } else{
         _this.$message.error('获取数据失败');
       }
