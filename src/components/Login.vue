@@ -48,7 +48,9 @@
               this.$store.dispatch('login', res.data)
 
               this.$router.replace('/published');
-            } else{
+            } else if (400 == res.code){
+              this.$message.error(res.msg);
+            } else {
               this.$message.error('登录失败！');
             }
           })

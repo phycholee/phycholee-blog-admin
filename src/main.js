@@ -26,6 +26,11 @@ import EditBlog from './components/blog/EditBlog'
 import AddTag from './components/tag/AddTag'
 import Tags from './components/tag/Tags'
 
+import Admin from './components/info/Admin'
+import BlogInfo from './components/info/BlogInfo'
+
+
+
 import store from './store'
 
 Vue.use(VueResource)
@@ -80,6 +85,15 @@ const routes = [{
   children:[
     {path:'/tags', component:Tags, name:'标签管理', icon:'fa fa-tags'},
     {path:'/add-tag', component:AddTag, name:'新标签', icon:'fa fa-pencil-square-o'},
+  ]
+},{
+  path:'/',
+  component: Home,
+  name:'信息',
+  meta: { requiresAuth: true },
+  children:[
+    {path:'/admin', component:Admin, name:'用户信息', icon:'fa fa-user'},
+    {path:'/blog-info', component:BlogInfo, name:'博客信息', icon:'fa fa-info-circle'},
   ]
 }];
 

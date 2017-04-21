@@ -22,7 +22,7 @@
             <h1 class="title">{{ tagForm.name }}</h1>
             <span class="subtitle">{{ tagForm.description }}</span>
             <div class="tag-child">
-              <span class="author">此标签下有<strong class="tag-child-num">100</strong> 篇博文</span>&nbsp;&nbsp;&nbsp;
+              <!--<span class="author">此标签下有<strong class="tag-child-num">100</strong> 篇博文</span>-->
             </div>
 
           </el-col>
