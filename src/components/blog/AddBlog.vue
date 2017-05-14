@@ -224,16 +224,16 @@
   }
 
   //保存文章
-  var saveArticle = (_this, params) =>{
+  let saveArticle = (_this, params) =>{
     if (checkEmpty(_this)){
-      var fLoding = _this.$loading({ fullscreen: true })
-      var waitTime = 3000;
-      var startTime = new Date();
+      let fLoding = _this.$loading({ fullscreen: true })
+      let waitTime = 3000;
+      let startTime = new Date();
 
       request.article.save(params).then(res=>{
         //计算通信花费时间
-        var endTime = new Date();
-        var useTime = endTime.getTime()-startTime.getTime();
+        let endTime = new Date();
+        let useTime = endTime.getTime()-startTime.getTime();
         if (useTime<waitTime){
           waitTime = waitTime - useTime;
         }else{
@@ -263,9 +263,24 @@
   }
 
   //检查内容不能为空
-  var checkEmpty = _this => {
-    var markdown = editor.getMarkdown();
-    var html = editor.getHTML();
+  let checkEmpty = _this => {
+
+    let falg = false
+    _this.$refs.blogForm.validate((valid)=>{
+      console.log('校验'+valid)
+      if(!valid){
+        console.log('校验:标题为空'+ !valid)
+
+        _this.$message.error('标题不能为空');
+        flag = true
+      }
+    })
+    if (falg){
+      return false
+    }
+
+    let markdown = editor.getMarkdown();
+    let html = editor.getHTML();
 
     if (''==markdown){
       _this.$message.error('markdown内容不能为空');
@@ -273,13 +288,6 @@
     }else if (''== html){
       _this.$message.error('markdown内容不能为空');
       return false
-    }else{
-      _this.$refs.blogForm.validate((valid)=>{
-        if(!valid){
-          _this.$message.error('标题不能为空');
-          return false
-        }
-      })
     }
 
     return true
