@@ -42,7 +42,17 @@ Vue.use(VueRouter)
 
 //每个请求头添加token信息
 Vue.http.interceptors.push((request, next) => {
-  request.headers.set('token', store.state.token)
+  let token = store.state.token;
+  // if (null == token || '' == token){
+  //   token = localStorage.getItem('token')
+  //   console.log("token为：" + token)
+  //   if (null != token && '' != token) {
+  //     this.$store.dispatch('login', token)
+  //   }
+  // }
+  if(null != token && '' != token) {
+    request.headers.set('token', token)
+  }
   console.log(request.headers)
   next(response => {
 

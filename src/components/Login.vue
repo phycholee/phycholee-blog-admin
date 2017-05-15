@@ -38,14 +38,31 @@
       }
     }
   },
+  mounted(){
+//    let token = this.$store.state.token;
+//    if (null == token || '' == token){
+      let token = sessionStorage.getItem('token')
+      this.$store.dispatch('login', token)
+//    }
+    console.log("登录转跳：" + token)
+
+    if(null !== token && '' !== token ) {
+      this.$router.replace('/published');
+    }
+  },
   methods: {
     login() {
+//      sessionStorage.setItem('token', '');
+
       this.$refs.loginForm.validate((valid)=>{
         if(valid){
 
           request.auth.login(this.loginForm).then(res => {
             if(200 == res.code){
               this.$store.dispatch('login', res.data)
+
+              //保存到本地
+              sessionStorage.setItem('token', res.data);
 
               this.$router.replace('/published');
             } else if (400 == res.code){

@@ -244,7 +244,7 @@
           fLoding.close()
           if (200 == res.code){
             _this.$message({
-              message: res.message,
+              message: res.msg,
               type: 'success'
             });
 
@@ -254,7 +254,7 @@
               _this.$router.push('/saved')
             }
           }else if(400 == res.code){
-            _this.$message.error(res.message);
+            _this.$message.error(res.msg);
           }
 
         }, waitTime);

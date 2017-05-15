@@ -13,9 +13,22 @@ const state = {
   token: ''
 }
 
+let getToken = () => {
+  let token = state.token
+
+  if (null == token || '' == token){
+    token = sessionStorage.getItem('token')
+    if (null != sessionToken && '' != sessionToken)
+      this.$store.dispatch('login', token)
+  }
+
+  return token
+}
+
 
 export default new Vuex.Store({
   state,
   mutations,
-  actions
+  actions,
+  getToken
 })

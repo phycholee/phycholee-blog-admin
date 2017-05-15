@@ -79,6 +79,7 @@
           request.auth.logout(this.$store.state.token).then(res => {
             if(200 == res.code){
               this.$store.dispatch('logout')
+              sessionStorage.removeItem('token');
 
               this.$router.replace('/login')
             } else{

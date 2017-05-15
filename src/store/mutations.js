@@ -16,6 +16,6 @@ export default {
   },
   //注销
   [types.LOGOUT](state){
-    state.token = ''
+    state.token = null
   }
 }
